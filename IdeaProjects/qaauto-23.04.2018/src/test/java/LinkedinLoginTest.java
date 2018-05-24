@@ -3,6 +3,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import static java.lang.Thread.sleep;
@@ -13,11 +14,20 @@ public class LinkedinLoginTest {
     @BeforeMethod
     public void before() {
         webDriver = new FirefoxDriver();
+
         webDriver.get("https://us.linkedin.com/");
     }
+    @DataProvider
+    public Object[][] validDataProvider() {
+        return new Object[][]{
+                { "tatyana.muromtseva@gmail.com", "119143756126345711" },
+                { "TATYANA.MUROMTSEVA@GMAIL.COM", "119143756126345711" }
 
-    @Test
-    public void successfulLoginTest() throws InterruptedException {
+        };
+    }
+
+    @Test(dataProvider = "validDataProvider")
+    public void successfulLoginTest(String email, String password) throws InterruptedException {
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
         Assert.assertEquals(linkedinLoginPage.getCurrentTitle(),
                 "LinkedIn: Log In or Sign Up",
@@ -26,7 +36,7 @@ public class LinkedinLoginTest {
         Assert.assertTrue(linkedinLoginPage.isSignInButtonDisplayed(),
                 "Sign in button is not displayed");
 
-        linkedinLoginPage.login("tatyana.muromtseva@gmail.com", "119143756126345711");
+        linkedinLoginPage.login(email, password);
 
         sleep(3000);
         LinkedinHomePage linkedinHomePage = new LinkedinHomePage(webDriver);
@@ -42,7 +52,7 @@ public class LinkedinLoginTest {
         }
 
    @Test
-    public void negativeLoginTest() throws InterruptedException {
+    public void negativeReturnToLoginSubmitTest() throws InterruptedException {
 
 
        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
@@ -86,9 +96,11 @@ public class LinkedinLoginTest {
 
         }
         @Test
-        public void negativeLoginTestWrongEmail() throws InterruptedException{
+        public void negativeReturnedToLoginSubmitPage() throws InterruptedException{
             LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
-            linkedinLoginPage.login( "tatyana.muromtseva@mail.com", "119143756126345711");
+            Assert.assertTrue(linkedinLoginPage.isSignInButtonDisplayed(),
+                    "Sign in button not displayed");
+            linkedinLoginPage.login( "tatyana.muromtseva@mail.com", "1");
 
             sleep(5000);
 
@@ -101,15 +113,19 @@ public class LinkedinLoginTest {
                     "Tile is wrong");
 
             sleep(3000);
-            Assert.assertTrue(linkedinLoginPage.isErrorMessageDisplayed(),
-                    "There were one or more errors in your submission. Please correct the marked fields below.");
+            LinkeinLoginSubmitPage linkeinLoginSubmitPage = new LinkeinLoginSubmitPage(webDriver);
+            Assert.assertTrue(linkeinLoginSubmitPage.isPageLoaded(),
+                    "Login-submit page is not loaded.");
+            Assert.assertEquals(linkeinLoginSubmitPage.getErrorMessageText(),"",
+                    "Error message text is incorrect.");
         }
 
-@AfterMethod
+    @AfterMethod
 
     public void after(){
-        webDriver.close();
 }
+
+
 }
 
 

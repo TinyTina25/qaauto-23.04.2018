@@ -3,8 +3,8 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class LinkedinLoginPage {
-    private WebDriver webDriver;
+public class LinkedinLoginPage extends LinkedinBasePage{
+
 
     private WebElement emailField;
     private WebElement passwordField;
@@ -13,7 +13,7 @@ public class LinkedinLoginPage {
     private WebElement emailErrorMessage;
 
     public LinkedinLoginPage(WebDriver webDriver) {
-        this.webDriver = webDriver;
+        super(webDriver);
         initElements();
 
     }
@@ -33,12 +33,7 @@ public class LinkedinLoginPage {
     public boolean isSignInButtonDisplayed(){
        return signinButton.isDisplayed();
     }
-    public String getCurrentUrl(){
-        return webDriver.getCurrentUrl();
-    }
-    public  String getCurrentTitle(){
-        return webDriver.getTitle();
-    }
+
     public boolean isErrorMessageDisplayed(){
         return errorMessage.isDisplayed();
     }
