@@ -21,7 +21,7 @@ public class LinkedinLoginTest {
     public Object[][] validDataProvider() {
         return new Object[][]{
                 { "tatyana.muromtseva@gmail.com", "119143756126345711" },
-                { "TATYANA.MUROMTSEVA@GMAIL.COM", "119143756126345711" }
+//                { "TATYANA.MUROMTSEVA@GMAIL.COM", "119143756126345711" }
 
         };
     }
@@ -36,10 +36,9 @@ public class LinkedinLoginTest {
         Assert.assertTrue(linkedinLoginPage.isSignInButtonDisplayed(),
                 "Sign in button is not displayed");
 
-        linkedinLoginPage.login(email, password);
 
-        sleep(3000);
-        LinkedinHomePage linkedinHomePage = new LinkedinHomePage(webDriver);
+        LinkedinHomePage linkedinHomePage = linkedinLoginPage.login(email, password);
+        sleep(5000);
         Assert.assertEquals(linkedinHomePage.getCurrentUrl(),
                 "https://www.linkedin.com/feed/",
                 "Homepage URL is wrong");
@@ -76,19 +75,19 @@ public class LinkedinLoginTest {
 
         Assert.assertTrue(linkedinLoginPage.isSignInButtonDisplayed(),
                 "Sign in button is not displayed");
-        linkedinLoginPage.login(email, password);
+        LinkeinLoginSubmitPage linkeinLoginSubmitPage = linkedinLoginPage.nologin(email, password);
 
 sleep(5000);
 
 
-        Assert.assertEquals(linkedinLoginPage.getCurrentUrl(),
+        Assert.assertEquals(linkeinLoginSubmitPage.getCurrentUrl(),
                 "https://www.linkedin.com/uas/login-submit",
                 "URL is wrong");
-        Assert.assertEquals(linkedinLoginPage.getCurrentTitle(),
+        Assert.assertEquals(linkeinLoginSubmitPage.getCurrentTitle(),
                 "Sign In to LinkedIn",
                 "Tile is wrong");
 
-        Assert.assertTrue(linkedinLoginPage.isErrorMessageDisplayed(),
+        Assert.assertTrue(linkeinLoginSubmitPage.isErrorMessageDisplayed(),
                 "There were one or more errors in your submission. Please correct the marked fields below.");
     }
 
@@ -105,7 +104,7 @@ sleep(5000);
     @Test(dataProvider = "emptyFieldDataProvider")
 
 
-    public void emptyFieldLoginTest (String email, String password)throws InterruptedException{
+    public void emptyFieldLoginNegativeTest (String email, String password)throws InterruptedException{
 
 
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
@@ -135,6 +134,7 @@ sleep(5000);
     @AfterMethod
 
     public void after(){
+        webDriver.close();
 }
 
 
