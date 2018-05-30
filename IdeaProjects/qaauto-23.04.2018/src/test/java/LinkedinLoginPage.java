@@ -1,57 +1,48 @@
-import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class LinkedinLoginPage extends LinkedinBasePage{
+public class LinkedinLoginPage extends LinkedinBasePage {
 
     @FindBy(id = "login-email")
     private WebElement emailField;
 
-    @FindBy(id ="login-password")
+    @FindBy(id = "login-password")
     private WebElement passwordField;
 
-    @FindBy (id="login-submit")
-    private WebElement signinButton;
+    @FindBy(id = "login-submit")
+    private WebElement signInButton;
 
-    @FindBy(xpath ="//div[@role='alert']" )
+    @FindBy(xpath = "//div[@role='alert']")
     private WebElement errorMessage;
 
     public LinkedinLoginPage(WebDriver webDriver) {
         super(webDriver);
         PageFactory.initElements(webDriver, this);
-
     }
 
+        public boolean isPageLoaded () {
+            return signInButton.isDisplayed();
+        }
+        public <T > T login(String email, String password) {
+            emailField.sendKeys(email);
+            passwordField.sendKeys(password);
+            signInButton.click();
+            // return PageFactory.initElements(webDriver, LinkedinHomePage.class);//инициализация веб элементов и вызов конструктора
+            if (getCurrentUrl().contains("/feed")) {
+                return (T) new LinkedinHomePage(webDriver);
+                }
+            if (getCurrentUrl().contains("/login-submit")) {
+                return (T) new LinkeinLoginSubmitPage(webDriver);
+                        }
+             else {
+                return (T) this;
+                }
 
+        }
 
+}
 
-    public LinkedinHomePage login(String email, String password) {
-        emailField.sendKeys(email);
-        passwordField.sendKeys(password);
-        signinButton.click();
-        return PageFactory.initElements(webDriver, LinkedinHomePage.class);
-    }
-    public boolean isSignInButtonDisplayed(){
-       return signinButton.isDisplayed();
-    }
-
-    public boolean isErrorMessageDisplayed(){
-        return errorMessage.isDisplayed();
-    }
-
-    public void emptyLogin(){
-        signinButton.click();
-    }
-
-    public LinkeinLoginSubmitPage nologin (String email, String password){
-        emailField.sendKeys(email);
-        passwordField.sendKeys(password);
-        signinButton.sendKeys(Keys.ENTER);
-        return PageFactory.initElements(webDriver, LinkeinLoginSubmitPage.class);
-    }
-
-    }
 

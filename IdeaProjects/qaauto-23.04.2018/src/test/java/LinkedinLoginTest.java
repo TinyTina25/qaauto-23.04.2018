@@ -6,6 +6,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.concurrent.TimeUnit;
+
 import static java.lang.Thread.sleep;
 
 public class LinkedinLoginTest {
@@ -14,6 +16,7 @@ public class LinkedinLoginTest {
     @BeforeMethod
     public void before() {
         webDriver = new FirefoxDriver();
+      //  webDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
         webDriver.get("https://us.linkedin.com/");
     }
@@ -33,22 +36,19 @@ public class LinkedinLoginTest {
                 "LinkedIn: Log In or Sign Up",
                 "Login page title is wrong");
         //lesson5
-        Assert.assertTrue(linkedinLoginPage.isSignInButtonDisplayed(),
-                "Sign in button is not displayed");
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(),
+                "Login page is not loaded");
 
 
         LinkedinHomePage linkedinHomePage = linkedinLoginPage.login(email, password);
-        sleep(5000);
-        Assert.assertEquals(linkedinHomePage.getCurrentUrl(),
-                "https://www.linkedin.com/feed/",
-                "Homepage URL is wrong");
-        sleep(5000);
-        Assert.assertTrue(linkedinHomePage.getCurrentTitle().contains("LinkedIn"),
-                "Home page Title is wrong");
+        //sleep(5000);
+        Assert.assertTrue(linkedinHomePage.isPageLoaded(),
+                 "Login Page is not loaded.");
+    }
 
 
 
-        }
+
     @DataProvider
     public Object[][] invalidDataProvider() {
         return new Object[][]{
@@ -73,11 +73,11 @@ public class LinkedinLoginTest {
                 "https://us.linkedin.com/",
                 "URL is wrong");
 
-        Assert.assertTrue(linkedinLoginPage.isSignInButtonDisplayed(),
-                "Sign in button is not displayed");
-        LinkeinLoginSubmitPage linkeinLoginSubmitPage = linkedinLoginPage.nologin(email, password);
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(),
+                "Page not loaded");
+        LinkeinLoginSubmitPage linkeinLoginSubmitPage = linkedinLoginPage.login(email, password);
 
-sleep(5000);
+//sleep(5000);
 
 
         Assert.assertEquals(linkeinLoginSubmitPage.getCurrentUrl(),
@@ -115,11 +115,11 @@ sleep(5000);
                 "https://us.linkedin.com/",
                 "URL is wrong");
 
-        Assert.assertTrue(linkedinLoginPage.isSignInButtonDisplayed(),
-                "Sign in button is not displayed");
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(),
+                "Login page not loaded");
         linkedinLoginPage.login(email, password);
 
-        sleep(5000);
+       // sleep(5000);
 
 
         Assert.assertEquals(linkedinLoginPage.getCurrentUrl(),
@@ -129,6 +129,7 @@ sleep(5000);
                 "LinkedIn: Log In or Sign Up",
                 "Tile is wrong");
     }
+
 
 
     @AfterMethod
