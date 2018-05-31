@@ -18,6 +18,9 @@ public class LinkedinLoginPage extends LinkedinBasePage {
     @FindBy(xpath = "//div[@role='alert']")
     private WebElement errorMessage;
 
+    @FindBy(xpath = "//a[contains(@class,'link-forgot-password')]")
+    private WebElement forgotPassword;
+
     public LinkedinLoginPage(WebDriver webDriver) {
         super(webDriver);
         PageFactory.initElements(webDriver, this);
@@ -37,11 +40,16 @@ public class LinkedinLoginPage extends LinkedinBasePage {
             if (getCurrentUrl().contains("/login-submit")) {
                 return (T) new LinkeinLoginSubmitPage(webDriver);
                         }
+
              else {
                 return (T) this;
                 }
 
         }
+            public LinkedinRequestPasswordResetPage forgotPasswordClicked() {
+                forgotPassword.click();
+                return PageFactory.initElements(webDriver, LinkedinRequestPasswordResetPage.class);
+    }
 
 }
 
