@@ -1,25 +1,21 @@
+package test;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import java.util.concurrent.TimeUnit;
+import page.LinkedinHomePage;
+import page.LinkedinLoginPage;
+import page.LinkeinLoginSubmitPage;
 
 import static java.lang.Thread.sleep;
 
-public class LinkedinLoginTest {
-    WebDriver webDriver;
+public class LinkedinLoginTest extends LinkedinBaseTest {
 
-    @BeforeMethod
-    public void before() {
-        webDriver = new FirefoxDriver();
-      //  webDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-        webDriver.get("https://us.linkedin.com/");
-    }
     @DataProvider
     public Object[][] validDataProvider() {
         return new Object[][]{
@@ -29,19 +25,27 @@ public class LinkedinLoginTest {
         };
     }
 
+    /**
+     * Class for successful login tests. Takes params from DataProvider
+     * @param email
+     * @param password
+     * @throws Exception
+     */
     @Test(dataProvider = "validDataProvider")
-    public void successfulLoginTest(String email, String password) throws InterruptedException {
-        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
+    public void successfulLoginTest(String email, String password) throws Exception {
+
         Assert.assertEquals(linkedinLoginPage.getCurrentTitle(),
                 "LinkedIn: Log In or Sign Up",
                 "Login page title is wrong");
+
+
         //lesson5
         Assert.assertTrue(linkedinLoginPage.isPageLoaded(),
                 "Login page is not loaded");
 
 
         LinkedinHomePage linkedinHomePage = linkedinLoginPage.login(email, password);
-        //sleep(5000);
+        sleep(5000);
         Assert.assertTrue(linkedinHomePage.isPageLoaded(),
                  "Login Page is not loaded.");
     }
@@ -59,6 +63,12 @@ public class LinkedinLoginTest {
         };
     }
 
+    /**
+     * Negative login test. @params from DataProvider
+     * @param email
+     * @param password
+     * @throws InterruptedException
+     */
    @Test(dataProvider = "invalidDataProvider")
 
 
@@ -80,14 +90,8 @@ public class LinkedinLoginTest {
 //sleep(5000);
 
 
-        Assert.assertEquals(linkeinLoginSubmitPage.getCurrentUrl(),
-                "https://www.linkedin.com/uas/login-submit",
-                "URL is wrong");
-        Assert.assertEquals(linkeinLoginSubmitPage.getCurrentTitle(),
-                "Sign In to LinkedIn",
-                "Tile is wrong");
 
-        Assert.assertTrue(linkeinLoginSubmitPage.isErrorMessageDisplayed(),
+        Assert.assertTrue(linkeinLoginSubmitPage.isPageLoaded(),
                 "There were one or more errors in your submission. Please correct the marked fields below.");
     }
 
@@ -101,6 +105,12 @@ public class LinkedinLoginTest {
 
     }
 
+    /**
+     * Negative test cases with empty parameter
+     * @param email
+     * @param password
+     * @throws InterruptedException
+     */
     @Test(dataProvider = "emptyFieldDataProvider")
 
 

@@ -1,0 +1,36 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Linkedin Login">
+
+<test name="Login Test Chrome for https://www.linkedin.com/">
+    <parameter name="browserType" value="Chrome"/>
+    <parameter name="envURL" value="https://www.linkedin.com/" />
+    <classes>
+        <class name="test.LinkedinLoginTest" />
+    </classes>
+</test>
+<test name="Login Test Chrome for https://us.linkedin.com/">
+    <parameter name="browserType" value="Chrome"/>
+    <parameter name="envURL" value="https://us.linkedin.com/" />
+    <classes>
+        <class name="test.LinkedinLoginTest" />
+    </classes>
+</test>
+
+
+<test name="Login Test Firefox for https://us.linkedin.com/">
+    <parameter name="browserType" value="Firefox"/>
+    <parameter name="envURL" value="https://us.linkedin.com/" />
+    <classes>
+        <class name="test.LinkedinLoginTest" />
+    </classes>
+</test>
+<test name="Login Test Firefox for https://www.linkedin.com/">
+<parameter name="browserType" value="Firefox"/>
+<parameter name="envURL" value="https://www.linkedin.com/" />
+<classes>
+    <class name="test.LinkedinLoginTest" />
+</classes>
+</test>
+
+</suite>

@@ -26,6 +26,11 @@ public class LinkedinRequestPasswordResetPage extends LinkedinBasePage {
 
     }
 
+    /**
+     * Method for submit email for restore password
+     * @param userEmail
+     * @return
+     */
     public LinkedinRequestPasswordResetSubmitPage submitUserEmail(String userEmail) {
 
         gMailService.connect();
