@@ -34,7 +34,7 @@ public class LinkedinLoginPage extends LinkedinBasePage {
         super(webDriver);
         PageFactory.initElements(webDriver, this);
     }
-    
+
     /**
      * Abstract method which check is right page loaded by specific web element
      * @return

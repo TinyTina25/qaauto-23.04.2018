@@ -12,9 +12,9 @@ public class LinkedinBaseTest {
     WebDriver webDriver;
     LinkedinLoginPage linkedinLoginPage;
     @BeforeMethod
-    public void before(String browser, String URLenv) {
+    public void before(String browserType, String URLenv) {
         WebDriverManager.chromedriver().setup();
-        if(browser.equalsIgnoreCase("Firefox" )) {
+        if(browserType.equalsIgnoreCase("Firefox" )) {
             webDriver = new FirefoxDriver();
         }
         else  {
